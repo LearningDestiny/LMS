@@ -26,7 +26,8 @@ import Message from './adminmes/Message';
 import Contactsform from './Pages/Contactsform';
 import Signup from './adminmes/Signup';
 import ProtectedRoute from './Authentication/ProtectedRoutes'; 
-import AdminLayout from './Authentication/AdminLayout';// Import the new ProtectedRoute component
+import AdminLayout from './Authentication/AdminLayout'; 
+import { Outlet } from 'react-router-dom'; // Import Outlet
 
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -44,7 +45,6 @@ const App = () => {
           <Route path="/" element={<Home isDarkMode={isDarkMode} />} />
           <Route path="/category/:categoryName" element={<CategoryPage />} />
           <Route path="/enroll/:courseId" element={<CourseDetails />} />
-          <Route path="/enroll/:courseId" element={<StaticEnroll />} />
           <Route path="/teach" element={<Teach />} />
           <Route path="/businessForm" element={<BusinessForm />} />
           <Route path="/aboutus" element={<Aboutus />} />
@@ -55,24 +55,17 @@ const App = () => {
           <Route path="/signup" element={<Signup isDarkMode={isDarkMode} />} />
 
           {/* Protected Admin Dashboard Routes */}
-          <Route 
-            path="/admin-dashboard/*" 
-            element={
-              <AdminLayout>
-                <Routes>
-                  <Route path="/" element={<AdminDashboard />} />
-                  <Route path="adminview" element={<Adminview />} />
-                  <Route path="requests" element={<Message />} />
-                  <Route path="addCourses" element={<AddCourses />} />
-                  <Route path="allCourses" element={<AllCourses />} />
-                  <Route path="course/:courseId" element={<CoursePreview />} />
-                  <Route path="students" element={<Students />} />
-                  <Route path="analytics" element={<Analytics />} />
-                  <Route path="settings" element={<Settings />} />
-                </Routes>
-              </AdminLayout>
-            }
-          />
+          <Route path="/admin-dashboard" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="adminview" element={<Adminview />} />
+            <Route path="requests" element={<Message />} />
+            <Route path="addCourses" element={<AddCourses />} />
+            <Route path="allCourses" element={<AllCourses />} />
+            <Route path="course/:courseId" element={<CoursePreview />} />
+            <Route path="students" element={<Students />} />
+            <Route path="analytics" element={<Analytics />} />
+            <Route path="settings" element={<Settings />} />
+          </Route>
         </Routes>
         <ToastContainer position="top-right" autoClose={3000} />
       </div>

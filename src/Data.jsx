@@ -397,7 +397,7 @@ export const courses = [
     rating: 4.7,
     ratingCount: 180,
     price: "4,499 Rs",
-    imageUrl: "https://th.bing.com/th/id/OIP.uqXKxkJonTic6y1ZxADbOAAAAA?w=331&h=167&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+    imageUrl: "https://images.unsplash.com/photo-1726594254430-cdf9fa09cf6c?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     lastUpdated: "August 2024",
     duration: "60 hours",
     lectureCount: 25,
