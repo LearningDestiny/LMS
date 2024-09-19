@@ -99,13 +99,13 @@ const Home = ({ isDarkMode }) => {
                   <h4 className="font-semibold mt-2 text-sm">{course.title}</h4>
                   <p className="text-xs">{course.instructor}</p>
                   <div className="flex items-center mt-1">
-                    <span className="text-orange-400 font-bold mr-1 text-sm">{course.rating.toFixed(1)}</span>
+                    {/* <span className="text-orange-400 font-bold mr-1 text-sm">{course.rating.toFixed(1)}</span>
                     <div className="flex">
                       {[...Array(5)].map((_, i) => (
                         <FaStar key={i} className={i < Math.round(course.rating) ? 'text-orange-400' : 'text-gray-600'} />
                       ))}
-                    </div>
-                    <span className="text-xs ml-1">({course.ratingCount})</span>
+                    </div> */}
+                    {/* <span className="text-xs ml-1">({course.ratingCount})</span> */}
                   </div>
                   <p className="font-bold mt-1 text-sm">{course.price}</p>
                   {hoveredCourse === course.id && (
