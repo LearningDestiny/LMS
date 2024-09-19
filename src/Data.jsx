@@ -15,10 +15,7 @@ export const courses = [
     description: "Master modern web development with Vite, React, and Tailwind CSS.",
     highlights: [
       'Fast Development with Vite',
-      'Component-based Architecture in React',
-      'Responsive Design with Tailwind CSS',
-      'Advanced State Management',
-      'Building Production-Ready Apps',
+    
     ],
     roadmap: [
       {
@@ -90,9 +87,7 @@ export const courses = [
     highlights: [
       'Introduction to Next.js',
       'Server-side Rendering',
-      'Static Site Generation',
-      'API Routes in Next.js',
-      'Deploying Next.js Apps',
+ 
     ],
     roadmap: [
       {
@@ -161,10 +156,7 @@ export const courses = [
     description: "Get a solid foundation in JavaScript, the most popular programming language.",
     highlights: [
       'Variables and Data Types',
-      'Functions and Scope',
-      'Asynchronous Programming',
-      'DOM Manipulation',
-      'Event Handling',
+     
     ],
     roadmap: [
       {
@@ -312,13 +304,9 @@ export const courses = [
     lastUpdated: "July 2024",
     duration: "50 hours",
     lectureCount: 20,
-    description: "Start your journey in programming with Python, the most popular beginner-friendly language.",
+    description: ".",
     highlights: [
-      'Introduction to Python',
-      'Basic Syntax and Data Types',
-      'Control Structures and Functions',
-      'Working with Files',
-      'Introduction to OOP in Python',
+      
     ],
     roadmap: [
       {
@@ -404,10 +392,6 @@ export const courses = [
     description: "Enhance your Python skills with advanced topics and techniques for experienced developers.",
     highlights: [
       'Advanced OOP Concepts',
-      'Error Handling and Debugging',
-      'Working with Modules and Packages',
-      'Advanced Data Structures',
-      'File I/O and Serialization',
     ],
     roadmap: [
       {
@@ -506,10 +490,7 @@ export const courses = [
     description: "Learn how to build robust web applications with Python using the Django framework.",
     highlights: [
       'Introduction to Django',
-      'Setting up the Development Environment',
-      'Building a Blog with Django',
-      'User Authentication and Authorization',
-      'Deploying Django Applications',
+     
     ],
     roadmap: [
       {
@@ -942,11 +923,7 @@ export const courses = [
     description: "Master deep learning techniques and neural networks, covering advanced topics like CNNs, RNNs, Autoencoders, GANs, NLP, and deployment of models for real-world applications.",
     highlights: [
       'Deep Learning Fundamentals: Neural Networks, Backpropagation',
-      'TensorFlow and Keras for Deep Learning',
-      'Convolutional and Recurrent Neural Networks',
-      'Generative Adversarial Networks (GANs)',
-      'Natural Language Processing with Deep Learning',
-      'Capstone Project and Model Deployment',
+      
     ],
     roadmap: [
       {
@@ -1088,8 +1065,8 @@ export const courses = [
     highlights: [
       'Data Science Lifecycle and Key Roles',
       'Data Analytics with Power BI',
-      'Python for Data Science',
-      'Machine Learning with Scikit-learn',
+      // 'Python for Data Science',
+      // 'Machine Learning with Scikit-learn',
       // 'Deep Learning and Neural Networks',
       // 'Natural Language Processing and Computer Vision',
       // 'Capstone Project and Model Deployment',
@@ -1277,8 +1254,8 @@ export const courses = [
     description: "Learn the fundamentals of machine learning, including supervised, unsupervised, and reinforcement learning techniques, with real-world applications.",
     highlights: [
       'Types of Machine Learning: Supervised, Unsupervised, and Reinforcement Learning',
-      'Data Preprocessing Techniques',
-      'Supervised Learning: Regression and Classification',
+      // 'Data Preprocessing Techniques',
+      // 'Supervised Learning: Regression and Classification',
       // 'Unsupervised Learning and Dimensionality Reduction',
       // 'Ensemble Methods and Neural Networks',
       // 'Model Deployment and Capstone Project',
@@ -1610,7 +1587,7 @@ export const workshops = [
     "rating": 4.7,
     "ratingCount": 180,
     "price": "3,499 Rs",
-    "imageUrl": "https://manilaworkshops.com/wp-content/uploads/2023/04/Manila-Worskhops-2-1024x512.png",
+    "imageUrl": "https://framerusercontent.com/images/OPXPK3EVvWKTxyehPUHeWjtfkA.png",
     "lastUpdated": "October 2024",
     "duration": "30 hours",
     "lectureCount": 10,

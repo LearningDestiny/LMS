@@ -1,22 +1,50 @@
 import React, { useState } from 'react';
-import { firestore } from '../firebase'; // Import Firestore instance
+import { auth, firestore } from '../firebase'; // Import Auth and Firestore instances
 import { collection, addDoc } from 'firebase/firestore'; // Import necessary Firestore functions
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import Font Awesome Icon Component
-import { faWhatsapp } from '@fortawesome/free-brands-svg-icons'; // Import WhatsApp Icon
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'; // Import Check Circle Icon for success message
 
 const EnrollmentForm = ({ course, onClose }) => {
   const [name, setName] = useState('');
   const [contactNumber, setContactNumber] = useState('');
   const [stream, setStream] = useState('');
   const [qualification, setQualification] = useState('');
-  const [whatsappNumber] = useState('9059898900'); // Pre-filled WhatsApp number
+  const [isSubmitted, setIsSubmitted] = useState(false); // State to handle form submission
+  const [showPopup, setShowPopup] = useState(false); // State to show or hide the popup
+  const [popupMessage, setPopupMessage] = useState(''); // Message for the popup
+
+  // Inline Popup Component
+  const Popup = ({ message, onClose }) => {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
+          <h2 className="text-xl font-bold mb-4">Notification</h2>
+          <p className="mb-4">{message}</p>
+          <button
+            onClick={onClose}
+            className="py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    );
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Check if user is authenticated
+    if (!auth.currentUser) {
+      setPopupMessage('You must be logged in to enroll.');
+      setShowPopup(true);
+      return;
+    }
+
     // Check if all fields are filled before proceeding
     if (!name || !contactNumber || !stream || !qualification) {
-      alert('Please fill out all the fields before enrolling.');
+      setPopupMessage('Please fill out all the fields before enrolling.');
+      setShowPopup(true);
       return;
     }
 
@@ -25,114 +53,119 @@ const EnrollmentForm = ({ course, onClose }) => {
       contactNumber,
       stream,
       qualification,
-      whatsappNumber,
       courseTitle: course.title,
+      userId: auth.currentUser.uid, // Store the user ID
       timestamp: new Date(), // Store the timestamp when the form is submitted
     };
 
     try {
       // Store data in Firebase Firestore
-      const docRef = await addDoc(collection(firestore, 'enrollments'), enrollmentData);
-      console.log("Document written with ID: ", docRef.id);
+      await addDoc(collection(firestore, 'enrollments'), enrollmentData);
+      
+      // Show success message
+      setIsSubmitted(true);
 
-      const message = encodeURIComponent(
-        `Hello, I would like to enroll in the course "${course.title}". My name is ${name}, my contact number is ${contactNumber}, I am studying ${stream}, and my qualification is ${qualification}.`
-      );
-      const url = `https://wa.me/${whatsappNumber}?text=${message}`;
-
-      // Redirect to WhatsApp
-      window.location.href = url;
-
-      // Optional: Close the form or navigate away
-      onClose();
+      // Optional: Close the form after a delay (2 seconds)
+      setTimeout(() => {
+        onClose();
+      }, 2000);
     } catch (error) {
-      console.error("Error adding document: ", error);
-      alert('An error occurred while submitting the form. Please try again.');
+      console.error("Error adding document: ", error.message);
+      setPopupMessage(`An error occurred while submitting the form: ${error.message}`);
+      setShowPopup(true);
     }
   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-4">Enroll in {course.title}</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="block text-lg font-medium mb-2" htmlFor="name">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-              required
-            />
+        {isSubmitted ? (
+          <div className="flex flex-col items-center">
+            <FontAwesomeIcon icon={faCheckCircle} className="text-green-500 text-4xl mb-4" />
+            <h2 className="text-2xl font-bold">Thank you for enrolling!</h2>
           </div>
-          <div className="mb-4">
-            <label className="block text-lg font-medium mb-2" htmlFor="contactNumber">
-              Contact Number
-            </label>
-            <input
-              type="tel"
-              id="contactNumber"
-              value={contactNumber}
-              onChange={(e) => setContactNumber(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-lg font-medium mb-2" htmlFor="stream">
-              Stream/Branch of Study
-            </label>
-            <input
-              type="text"
-              id="stream"
-              value={stream}
-              onChange={(e) => setStream(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-lg font-medium mb-2" htmlFor="qualification">
-              Qualification
-            </label>
-            <input
-              type="text"
-              id="qualification"
-              value={qualification}
-              onChange={(e) => setQualification(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-              required
-            />
-          </div>
-          
-          <button
-            type="submit"
-            className="py-3 px-6 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition duration-300"
-          >
-            Enroll Now
-          </button>
-        </form>
-        
-        {/* WhatsApp Button */}
-        <button
-          onClick={handleSubmit}
-          className="mt-4 py-3 px-6 flex items-center justify-center bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 w-full"
-        >
-          <FontAwesomeIcon icon={faWhatsapp} className="mr-2" />
-          Contact via WhatsApp
-        </button>
+        ) : (
+          <>
+            <h2 className="text-2xl font-bold mb-4">Enroll in {course.title}</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label className="block text-lg font-medium mb-2" htmlFor="name">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-lg font-medium mb-2" htmlFor="contactNumber">
+                  Contact Number
+                </label>
+                <input
+                  type="tel"
+                  id="contactNumber"
+                  value={contactNumber}
+                  onChange={(e) => setContactNumber(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-lg font-medium mb-2" htmlFor="stream">
+                  Stream/Branch of Study
+                </label>
+                <input
+                  type="text"
+                  id="stream"
+                  value={stream}
+                  onChange={(e) => setStream(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-lg font-medium mb-2" htmlFor="qualification">
+                  Qualification
+                </label>
+                <input
+                  type="text"
+                  id="qualification"
+                  value={qualification}
+                  onChange={(e) => setQualification(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  required
+                />
+              </div>
+              
+              <button
+                type="submit"
+                className="py-3 px-6 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition duration-300"
+              >
+                Enroll Now
+              </button>
+            </form>
 
-        <button
-          onClick={onClose}
-          className="mt-4 text-gray-600 hover:text-gray-900"
-        >
-          Close
-        </button>
+            <button
+              onClick={onClose}
+              className="mt-4 text-gray-600 hover:text-gray-900"
+            >
+              Close
+            </button>
+          </>
+        )}
       </div>
+
+      {/* Render the Popup component */}
+      {showPopup && (
+        <Popup
+          message={popupMessage}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
     </div>
   );
 };
