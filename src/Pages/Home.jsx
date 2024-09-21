@@ -108,11 +108,11 @@ const Home = () => {
 
         {/* Courses Section */}
         <section className={sectionClasses}>
-          <div className="flex justify-between items-center">
-            <h3 className="text-xl md:text-2xl font-bold mb-4 text-accent">Our Popular Courses</h3>
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg md:text-xl font-bold text-accent">Our Popular Courses</h3>
             <button
               onClick={() => navigate('/cour')}
-              className="text-sm font-semibold py-2 px-4 rounded-lg bg-blue-500 hover:bg-blue-600 text-white shadow-md hover:shadow-lg"
+              className="text-xs font-semibold py-1 px-3 rounded-lg bg-blue-500 hover:bg-blue-600 text-white shadow-md hover:shadow-lg transition-all duration-300"
             >
               View All
             </button>
@@ -122,45 +122,47 @@ const Home = () => {
             {/* Left Scroll Arrow */}
             <button
               onClick={() => handleScroll('left')}
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-full shadow-md hover:bg-blue-600 z-10"
+              className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-1 rounded-full shadow-md hover:bg-blue-600 z-10 text-sm"
+              aria-label="Scroll left"
             >
               <FaArrowLeft />
             </button>
 
             {/* Scrollable Courses Container */}
             <div
-              className="flex space-x-7 overflow-x-auto no-scrollbar pb-4"
+              className="flex space-x-4 overflow-x-auto scrollbar-hide pb-4"
               ref={courseContainerRef}
-              style={{ scrollBehavior: 'smooth' }}
+              style={{ scrollBehavior: 'smooth', scrollSnapType: 'x mandatory' }}
             >
               {courses.map((course) => (
                 <div
                   key={course.id}
-                  className={`${cardClasses} w-75 flex-shrink-0 relative`}
+                  className={`${cardClasses} w-64 flex-shrink-0 relative scroll-snap-align-start`}
                   onMouseEnter={() => setHoveredCourse(course.id)}
                   onMouseLeave={() => setHoveredCourse(null)}
                 >
-                  <img src={course.imageUrl} alt={course.title} className="w-full h-40 object-cover rounded-lg mb-2" />
-                  <h4 className="font-semibold mt-2 text-sm">{course.title}</h4>
-                  <p className="text-xs">{course.instructor}</p>
-                  <p className="font-bold mt-1 text-sm">{course.price}</p>
+                  <img src={course.imageUrl} alt={course.title} className="w-full h-32 object-cover rounded-t-lg" />
+                  <div className="p-3">
+                    <h4 className="font-semibold text-sm line-clamp-2">{course.title}</h4>
+                    <p className="text-xs mt-1 text-gray-600">{course.instructor}</p>
+                    <p className="font-bold mt-1 text-sm">{course.price}</p>
+                  </div>
                   {hoveredCourse === course.id && (
-                    <div className={`absolute inset-0 p-4 shadow-lg z-10 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg`} style={{ height: '100%' }}>
+                    <div className={`absolute inset-0 p-3 shadow-lg z-10 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg overflow-y-auto`} style={{ maxHeight: '100%' }}>
                       <h4 className="font-semibold text-sm">{course.title}</h4>
-                      <p className="text-xs mt-1">{course.lastUpdated}</p>
+                      <p className="text-xs mt-1 text-gray-500">{course.lastUpdated}</p>
                       <p className="text-xs mt-2">{course.duration} total hours · {course.lectureCount} lectures · All Levels</p>
-                      <p className="text-xs mt-2">{course.description}</p>
+                      <p className="text-xs mt-2 line-clamp-3">{course.description}</p>
                       <ul className="text-xs mt-2">
-                        {course.highlights.map((highlight, index) => (
-                          <li key={index} className="flex items-center mt-0">
-                            <FaPlayCircle className="mr-1" /> {highlight}
+                        {course.highlights.slice(0, 3).map((highlight, index) => (
+                          <li key={index} className="flex items-center mt-1">
+                            <FaPlayCircle className="mr-1 text-blue-500" /> <span className="line-clamp-1">{highlight}</span>
                           </li>
                         ))}
                       </ul>
                       <button
                         onClick={() => handleEnrollClick(course.id)}
-                        className={`mt-4 py-2 px-4 w-full font-semibold rounded ${isDarkMode ? 'bg-white text-black hover:bg-blue-600' : 'bg-black text-white hover:bg-blue-600'}`}
-                        style={{ fontSize: '0.875rem' }}
+                        className={`mt-3 py-1 px-3 w-full text-xs font-semibold rounded ${isDarkMode ? 'bg-white text-black hover:bg-blue-600 hover:text-white' : 'bg-black text-white hover:bg-blue-600'}`}
                       >
                         Enroll Now
                       </button>
@@ -173,7 +175,8 @@ const Home = () => {
             {/* Right Scroll Arrow */}
             <button
               onClick={() => handleScroll('right')}
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-full shadow-md hover:bg-blue-600 z-10"
+              className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-1 rounded-full shadow-md hover:bg-blue-600 z-10 text-sm"
+              aria-label="Scroll right"
             >
               <FaArrowRight />
             </button>
