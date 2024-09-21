@@ -125,7 +125,7 @@ const Navbar = () => {
               Logout
             </button>
           ) : (
-            <Link to="/admin-login" className="block py-2 hover:text-blue-500" onClick={toggleMenu}>
+            <Link to="/login" className="block py-2 hover:text-blue-500" onClick={toggleMenu}>
                Login
             </Link>
           )}
