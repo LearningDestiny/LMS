@@ -142,7 +142,7 @@ const Home = ({ isDarkMode }) => {
                   <img src={course.imageUrl} alt={course.title} className="w-full h-40 object-cover rounded-lg mb-2" />
                   <h4 className="font-semibold mt-2 text-sm">{course.title}</h4>
                   <p className="text-xs">{course.instructor}</p>
-                  <p className="font-bold mt-1 text-sm">${course.price}</p>
+                  <p className="font-bold mt-1 text-sm">{course.price}</p>
                   {hoveredCourse === course.id && (
                     <div className={`absolute inset-0 p-4 shadow-lg z-10 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg`} style={{ height: '100%' }}>
                       <h4 className="font-semibold text-sm">{course.title}</h4>
