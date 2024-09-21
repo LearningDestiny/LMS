@@ -3,13 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaSun, FaMoon, FaBars, FaTimes, FaUserCircle, FaSearch } from 'react-icons/fa';
 import { useAuth } from '../Authentication/AuthContext'; // Import the useAuth hook
 import { auth } from '../firebase'; // Import Firebase auth
-
-const Navbar = ({ isDarkMode, toggleTheme }) => {
+import { useTheme } from '../App';
+const Navbar = () => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const { role, currentUser } = useAuth(); // Destructure currentUser and role from useAuth
-
+  const { isDarkMode, toggleTheme } = useTheme(); // Use the useTheme hook
   // Toggle the mobile menu
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -81,7 +81,7 @@ const Navbar = ({ isDarkMode, toggleTheme }) => {
               <span>Logout</span>
             </button>
           ) : (
-            <Link to="/admin-login" className="flex items-center space-x-2 hover:text-blue-500">
+            <Link to="/login" className="flex items-center space-x-2 hover:text-blue-500">
               <FaUserCircle />
               <span>Login</span>
             </Link>

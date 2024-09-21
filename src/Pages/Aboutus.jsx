@@ -1,9 +1,11 @@
 import React from 'react';
 import pic from '../assets/pic.png';
+import { useTheme } from '../App';
 
 function Aboutus() {
+  const { isDarkMode } = useTheme();
   return (
-    <div className="bg-gradient-to-b from-gray-800 to-gray-900 text-white min-h-screen py-12 md:py-24">
+    <div className={`${isDarkMode ? ' text-white' : 'bg-gradient-to-b from-gray-100 to-white text-gray-900'} min-h-screen py-12 md:py-24`}>
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         
         {/* Hero Section */}
@@ -56,21 +58,21 @@ function Aboutus() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+            <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300`}>
               <h3 className="text-2xl font-bold mb-2">Top Quality Courses</h3>
               <p className="text-lg">
                 Access a wide range of industry-relevant courses designed to help you upskill and excel in your career.
               </p>
             </div>
 
-            <div className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+            <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300`}>
               <h3 className="text-2xl font-bold mb-2">Career Guidance</h3>
               <p className="text-lg">
                 Our experts provide personalized career coaching and mentorship to help you succeed in your desired field.
               </p>
             </div>
 
-            <div className="bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
+            <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300`}>
               <h3 className="text-2xl font-bold mb-2">Internships & Freelancing</h3>
               <p className="text-lg">
                 Discover exciting internship and freelancing opportunities to gain hands-on experience and build your portfolio.
@@ -83,12 +85,12 @@ function Aboutus() {
         <div className="mt-24 text-center">
           <h2 className="text-3xl font-bold mb-8">What Our Community Says</h2>
           <div className="flex flex-col md:flex-row gap-8 items-center justify-center">
-            <div className="bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm">
+            <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg shadow-lg max-w-sm`}>
               <p className="text-xl mb-4">"Learning Destiny helped me land my first internship and gave me the skills I needed to excel in my career!"</p>
               <span className="block text-indigo-500 font-semibold">- Arun kumar</span>
             </div>
 
-            <div className="bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm">
+            <div className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg shadow-lg max-w-sm`}>
               <p className="text-xl mb-4">"The courses were top-notch and the community support was incredible. I highly recommend it!"</p>
               <span className="block text-indigo-500 font-semibold">- Vijay</span>
             </div>

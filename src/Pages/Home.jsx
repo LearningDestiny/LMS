@@ -5,13 +5,14 @@ import { courses as initialCourses, categories, workshops, events, internships }
 import Navbar from '../components/navbar';
 import Footer from '../components/Footer';
 import pic from '../assets/pic.png';
+import { useTheme } from '../App';
 
-const Home = ({ isDarkMode }) => {
+const Home = () => {
   const [hoveredCourse, setHoveredCourse] = useState(null);
   const [courses, setCourses] = useState(initialCourses);
   const navigate = useNavigate();
   const courseContainerRef = useRef(null);
-
+  const { isDarkMode } = useTheme(); // Use the useTh
   const handleEnrollClick = (courseId) => {
     navigate(`/enroll/${courseId}`);
   };
@@ -68,7 +69,7 @@ const Home = ({ isDarkMode }) => {
   const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfQTciGaIsCogHy-NdL2RJ_tP71ysxKsQkREz2iawSeh5_hBw/viewform?usp=sf_link';
 
   return (
-    <div className={`${isDarkMode ? 'bg-gray-900 text-gray-200' : 'bg-white text-black'} font-body`}>
+    <div className= "font-body">
       <main className="container mx-auto py-2 px-4 md:px-8">
         {/* Hero Section */}
         <section

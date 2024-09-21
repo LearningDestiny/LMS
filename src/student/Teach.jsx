@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { firestore } from '../firebase'; // Adjust the path to your Firebase configuration
 import { collection, addDoc } from 'firebase/firestore';
+import { useTheme } from '../App';
 
 const Teach = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const Teach = () => {
     qualifications: '',
     referralCode: ''
   });
+  const { isDarkMode } = useTheme();
 
   const handleChange = (e) => {
     setFormData({
@@ -56,7 +58,7 @@ const Teach = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-gradient-to-r from-blue-500 to-teal-500 text-gray-800 font-body">
+    <div className={`relative min-h-screen flex flex-col ${isDarkMode ? 'bg-gray-900 text-gray-200' : 'bg-gray-100 text-gray-800'} font-body`}>
       <div
         className="absolute inset-0 -z-10 overflow-hidden"
         style={{
@@ -67,107 +69,59 @@ const Teach = () => {
         }}
       ></div>
 
-      <main className="container mx-auto py-16 px-8 flex flex-col items-center relative z-10">
+      <main className="container mx-auto py-8 px-4 sm:px-6 lg:px-8 flex flex-col items-center relative z-10">
         <section
-          className="flex flex-col md:flex-row items-center md:items-start p-8 rounded-lg shadow-lg w-full max-w-6xl"
-          style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.85)',
-            backdropFilter: 'blur(5px)',
-          }}
+          className={`w-full max-w-4xl ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}
         >
-          <div className="md:w-full md:pr-8 mb-8 md:mb-0">
-            <h1 className="text-4xl font-bold mb-4 text-gray-900">Apply to Teach</h1>
-            <p className="text-lg mb-6 text-gray-800">
+          <div className="p-6 sm:p-8">
+            <h1 className={`text-3xl sm:text-4xl font-bold mb-4 ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>Apply to Teach</h1>
+            <p className={`text-base sm:text-lg mb-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               If you're passionate about teaching and have expertise in your subject area, we invite you to join our platform and share your knowledge with our students.
             </p>
 
-            <form onSubmit={handleSubmit} className="mt-8 bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
-              <div className="mb-4">
-                <label htmlFor="name" className="block text-lg mb-2 text-gray-700 font-semibold">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full p-3 bg-gray-100 text-gray-800 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="email" className="block text-lg mb-2 text-gray-700 font-semibold">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full p-3 bg-gray-100 text-gray-800 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="phone" className="block text-lg mb-2 text-gray-700 font-semibold">Phone</label>
-                <input
-                  type="text"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full p-3 bg-gray-100 text-gray-800 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="subject" className="block text-lg mb-2 text-gray-700 font-semibold">Subject</label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className="w-full p-3 bg-gray-100 text-gray-800 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="experience" className="block text-lg mb-2 text-gray-700 font-semibold">Experience (in years)</label>
-                <input
-                  type="number"
-                  id="experience"
-                  name="experience"
-                  value={formData.experience}
-                  onChange={handleChange}
-                  className="w-full p-3 bg-gray-100 text-gray-800 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  required
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="qualifications" className="block text-lg mb-2 text-gray-700 font-semibold">Qualifications</label>
+            <form onSubmit={handleSubmit} className={`space-y-4 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-50'} p-4 sm:p-6 rounded-lg shadow-md`}>
+              {[
+                { name: 'name', label: 'Name', type: 'text' },
+                { name: 'email', label: 'Email', type: 'email' },
+                { name: 'phone', label: 'Phone', type: 'tel' },
+                { name: 'subject', label: 'Subject', type: 'text' },
+                { name: 'experience', label: 'Experience (in years)', type: 'number' },
+                { name: 'referralCode', label: 'Referral Code (optional)', type: 'text' },
+              ].map((field) => (
+                <div key={field.name}>
+                  <label htmlFor={field.name} className={`block text-sm font-medium mb-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{field.label}</label>
+                  <input
+                    type={field.type}
+                    id={field.name}
+                    name={field.name}
+                    value={formData[field.name]}
+                    onChange={handleChange}
+                    className={`w-full p-2 ${isDarkMode ? 'bg-gray-600 text-gray-200' : 'bg-white text-gray-900'} rounded-md border ${isDarkMode ? 'border-gray-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300`}
+                    required={field.name !== 'referralCode'}
+                  />
+                </div>
+              ))}
+              
+              <div>
+                <label htmlFor="qualifications" className={`block text-sm font-medium mb-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Qualifications</label>
                 <textarea
                   id="qualifications"
                   name="qualifications"
                   value={formData.qualifications}
                   onChange={handleChange}
-                  className="w-full p-3 bg-gray-100 text-gray-800 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                  className={`w-full p-2 ${isDarkMode ? 'bg-gray-600 text-gray-200' : 'bg-white text-gray-900'} rounded-md border ${isDarkMode ? 'border-gray-500' : 'border-gray-300'} focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300`}
                   rows="4"
                   required
                 ></textarea>
               </div>
-              <div className="mb-4">
-                <label htmlFor="referralCode" className="block text-lg mb-2 text-gray-700 font-semibold">Referral Code (optional)</label>
-                <input
-                  type="text"
-                  id="referralCode"
-                  name="referralCode"
-                  value={formData.referralCode}
-                  onChange={handleChange}
-                  className="w-full p-3 bg-gray-100 text-gray-800 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                />
-              </div>
+              
               <button
                 type="submit"
-                className="py-3 px-6 font-semibold rounded-md bg-gradient-to-r from-blue-600 to-teal-500 text-white hover:from-blue-700 hover:to-teal-600 transition-colors duration-300"
+                className={`w-full py-2 px-4 font-medium rounded-md ${
+                  isDarkMode
+                    ? 'bg-blue-600 hover:bg-blue-700'
+                    : 'bg-blue-600 hover:bg-blue-700'
+                } text-white transition-colors duration-300`}
               >
                 Apply via WhatsApp
               </button>

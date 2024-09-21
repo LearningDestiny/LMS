@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './Pages/Home';
 import AdminDashboard from './dashboard/AdminDashboard';
@@ -21,13 +21,19 @@ import StaticEnroll from './student/StaticEnroll';
 import ScrollToTop from './components/ScrollToTop';
 import Cour from './Pages/Cour';
 import Adminview from './admin-view/Adminview';
-import Adlogin from '../src/adminmes/Adlogin'; 
+import Login from '../src/adminmes/Adlogin'; 
 import Message from './adminmes/Message';
 import Contactsform from './Pages/Contactsform';
 import Signup from './adminmes/Signup';
 import ProtectedRoute from './Authentication/ProtectedRoutes'; 
 import AdminLayout from './Authentication/AdminLayout'; 
-import { Outlet } from 'react-router-dom'; // Import Outlet
+import { Outlet } from 'react-router-dom';
+
+// Create a context for the theme
+const ThemeContext = createContext();
+
+// Custom hook to use the theme context
+export const useTheme = () => useContext(ThemeContext);
 
 const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -38,37 +44,39 @@ const App = () => {
 
   return (
     <Router>
-      <div className={`App ${isDarkMode ? 'bg-gray-900 text-gray-200' : 'bg-white text-black'}`}>
-        <Navbar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Home isDarkMode={isDarkMode} />} />
-          <Route path="/category/:categoryName" element={<CategoryPage />} />
-          <Route path="/enroll/:courseId" element={<CourseDetails />} />
-          <Route path="/teach" element={<Teach />} />
-          <Route path="/businessForm" element={<BusinessForm />} />
-          <Route path="/aboutus" element={<Aboutus />} />
-          <Route path="/cour" element={<Cour />} />
-          <Route path="/cour/:courseId" element={<CourseDetails />} />
-          <Route path="/admin-login" element={<Adlogin />} />
-          <Route path="/Contactsform" element={<Contactsform />} />
-          <Route path="/signup" element={<Signup isDarkMode={isDarkMode} />} />
+      <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
+        <div className={`App ${isDarkMode ? 'bg-gray-900 text-gray-200' : 'bg-white text-black'}`}>
+          <Navbar />
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/category/:categoryName" element={<CategoryPage />} />
+            <Route path="/enroll/:courseId" element={<CourseDetails />} />
+            <Route path="/teach" element={<Teach />} />
+            <Route path="/businessForm" element={<BusinessForm />} />
+            <Route path="/aboutus" element={<Aboutus />} />
+            <Route path="/cour" element={<Cour />} />
+            <Route path="/cour/:courseId" element={<CourseDetails />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/Contactsform" element={<Contactsform />} />
+            <Route path="/signup" element={<Signup />} />
 
-          {/* Protected Admin Dashboard Routes */}
-          <Route path="/admin-dashboard" element={<AdminLayout />}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="adminview" element={<Adminview />} />
-            <Route path="requests" element={<Message />} />
-            <Route path="addCourses" element={<AddCourses />} />
-            <Route path="allCourses" element={<AllCourses />} />
-            <Route path="course/:courseId" element={<CoursePreview />} />
-            <Route path="students" element={<Students />} />
-            <Route path="analytics" element={<Analytics />} />
-            <Route path="settings" element={<Settings />} />
-          </Route>
-        </Routes>
-        <ToastContainer position="top-right" autoClose={3000} />
-      </div>
+            {/* Protected Admin Dashboard Routes */}
+            <Route path="/admin-dashboard" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="adminview" element={<Adminview />} />
+              <Route path="requests" element={<Message />} />
+              <Route path="addCourses" element={<AddCourses />} />
+              <Route path="allCourses" element={<AllCourses />} />
+              <Route path="course/:courseId" element={<CoursePreview />} />
+              <Route path="students" element={<Students />} />
+              <Route path="analytics" element={<Analytics />} />
+              <Route path="settings" element={<Settings />} />
+            </Route>
+          </Routes>
+          <ToastContainer position="top-right" autoClose={3000} />
+        </div>
+      </ThemeContext.Provider>
     </Router>
   );
 };

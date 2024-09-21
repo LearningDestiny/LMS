@@ -3,8 +3,10 @@ import { auth, firestore } from '../firebase'; // Import Auth and Firestore inst
 import { collection, addDoc } from 'firebase/firestore'; // Import necessary Firestore functions
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import Font Awesome Icon Component
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'; // Import Check Circle Icon for success message
+import { useTheme } from '../App';
 
 const EnrollmentForm = ({ course, onClose }) => {
+  const { isDarkMode } = useTheme();
   const [name, setName] = useState('');
   const [contactNumber, setContactNumber] = useState('');
   const [stream, setStream] = useState('');
@@ -17,12 +19,12 @@ const EnrollmentForm = ({ course, onClose }) => {
   const Popup = ({ message, onClose }) => {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
+        <div className={`${isDarkMode ? 'bg-gray-800 text-gray-200' : 'bg-white text-gray-800'} p-6 rounded-lg shadow-lg w-full max-w-sm`}>
           <h2 className="text-xl font-bold mb-4">Notification</h2>
           <p className="mb-4">{message}</p>
           <button
             onClick={onClose}
-            className="py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300"
+            className={`py-2 px-4 ${isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'} text-white rounded-lg transition duration-300`}
           >
             Close
           </button>
@@ -78,7 +80,7 @@ const EnrollmentForm = ({ course, onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+      <div className={`${isDarkMode ? 'bg-gray-800 text-gray-200' : 'bg-white text-gray-800'} p-6 rounded-lg shadow-lg w-full max-w-md`}>
         {isSubmitted ? (
           <div className="flex flex-col items-center">
             <FontAwesomeIcon icon={faCheckCircle} className="text-green-500 text-4xl mb-4" />
@@ -97,7 +99,7 @@ const EnrollmentForm = ({ course, onClose }) => {
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  className={`w-full px-3 py-2 border rounded-lg ${isDarkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`}
                   required
                 />
               </div>
@@ -110,7 +112,7 @@ const EnrollmentForm = ({ course, onClose }) => {
                   id="contactNumber"
                   value={contactNumber}
                   onChange={(e) => setContactNumber(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  className={`w-full px-3 py-2 border rounded-lg ${isDarkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`}
                   required
                 />
               </div>
@@ -123,7 +125,7 @@ const EnrollmentForm = ({ course, onClose }) => {
                   id="stream"
                   value={stream}
                   onChange={(e) => setStream(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  className={`w-full px-3 py-2 border rounded-lg ${isDarkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`}
                   required
                 />
               </div>
@@ -136,14 +138,14 @@ const EnrollmentForm = ({ course, onClose }) => {
                   id="qualification"
                   value={qualification}
                   onChange={(e) => setQualification(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                  className={`w-full px-3 py-2 border rounded-lg ${isDarkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}`}
                   required
                 />
               </div>
               
               <button
                 type="submit"
-                className="py-3 px-6 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition duration-300"
+                className={`py-3 px-6 ${isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-800 hover:bg-gray-900'} text-white rounded-lg transition duration-300`}
               >
                 Enroll Now
               </button>
@@ -151,7 +153,7 @@ const EnrollmentForm = ({ course, onClose }) => {
 
             <button
               onClick={onClose}
-              className="mt-4 text-gray-600 hover:text-gray-900"
+              className={`mt-4 ${isDarkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-600 hover:text-gray-900'}`}
             >
               Close
             </button>
