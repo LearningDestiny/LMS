@@ -304,7 +304,7 @@ export const courses = [
     lastUpdated: "July 2024",
     duration: "50 hours",
     lectureCount: 20,
-    description: ".",
+    description: "A programming language that is widely used in web applications, software development, data science, and machine learning (ML).",
     highlights: [
       
     ],

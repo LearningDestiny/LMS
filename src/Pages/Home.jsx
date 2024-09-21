@@ -23,17 +23,52 @@ const Home = ({ isDarkMode }) => {
     }
   };
 
+  // Touch/swipe functionality for mobile users
+  useEffect(() => {
+    const container = courseContainerRef.current;
+    let startX = 0;
+    let isDown = false;
+
+    const handleTouchStart = (e) => {
+      isDown = true;
+      startX = e.touches[0].clientX;
+    };
+
+    const handleTouchMove = (e) => {
+      if (!isDown) return;
+      const x = e.touches[0].clientX;
+      const walk = (startX - x) * 2;
+      container.scrollLeft += walk;
+      startX = x;
+    };
+
+    const handleTouchEnd = () => {
+      isDown = false;
+    };
+
+    container.addEventListener('touchstart', handleTouchStart);
+    container.addEventListener('touchmove', handleTouchMove);
+    container.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchmove', handleTouchMove);
+      container.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, []);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   const sectionClasses = 'relative z-10 mb-16 md:p-8';
-  const cardClasses = `relative border rounded-lg p-4 cursor-pointer transition-all duration-300 ${isDarkMode ? 'border-pink-500 hover:border-blue-500 bg-gray-900 text-gray-200' : 'border-blue-500 hover:border-pink-500 bg-white text-black'}`;
+  const cardClasses = `relative border rounded-lg p-4 cursor-pointer transition-all duration-300 ${
+    isDarkMode ? 'border-pink-500 hover:border-blue-500 bg-gray-900 text-gray-200' : 'border-blue-500 hover:border-pink-500 bg-white text-black'
+  }`;
   const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfQTciGaIsCogHy-NdL2RJ_tP71ysxKsQkREz2iawSeh5_hBw/viewform?usp=sf_link';
 
   return (
     <div className={`${isDarkMode ? 'bg-gray-900 text-gray-200' : 'bg-white text-black'} font-body`}>
-     
       <main className="container mx-auto py-2 px-4 md:px-8">
         {/* Hero Section */}
         <section
@@ -93,7 +128,7 @@ const Home = ({ isDarkMode }) => {
 
             {/* Scrollable Courses Container */}
             <div
-              className="flex space-x-7 overflow-hidden"
+              className="flex space-x-7 overflow-x-auto no-scrollbar pb-4"
               ref={courseContainerRef}
               style={{ scrollBehavior: 'smooth' }}
             >
@@ -104,7 +139,7 @@ const Home = ({ isDarkMode }) => {
                   onMouseEnter={() => setHoveredCourse(course.id)}
                   onMouseLeave={() => setHoveredCourse(null)}
                 >
-                  <img src={course.imageUrl} alt={course.title} className="w-full h-40 object-contain rounded-lg mb-2" />
+                  <img src={course.imageUrl} alt={course.title} className="w-full h-40 object-cover rounded-lg mb-2" />
                   <h4 className="font-semibold mt-2 text-sm">{course.title}</h4>
                   <p className="text-xs">{course.instructor}</p>
                   <p className="font-bold mt-1 text-sm">${course.price}</p>
